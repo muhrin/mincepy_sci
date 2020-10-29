@@ -1,38 +1,38 @@
-.. _documentation: https://mincepy.readthedocs.org/
-.. _object-relational mapper: https://en.wikipedia.org/wiki/Object-relational_mapping
-.. _data mapper pattern: https://en.wikipedia.org/wiki/Data_mapper_pattern
+.. _mincePy: https://github.com/muhrin/mincepy
+.. _mincepy documentation: https://mincepy.readthedocs.org/
+
 
 mincePy
 =======
 
 .. image:: https://codecov.io/gh/muhrin/mincepy/branch/develop/graph/badge.svg
-    :target: https://codecov.io/gh/muhrin/mincepy
+    :target: https://codecov.io/gh/muhrin/mincepy_sci
     :alt: Coverage
 
-.. image:: https://travis-ci.com/muhrin/mincepy.svg?branch=master
-    :target: https://travis-ci.com/github/muhrin/mincepy
+.. image:: https://travis-ci.com/muhrin/mincepy_sci.svg?branch=master
+    :target: https://travis-ci.com/github/muhrin/mincepy_sci
     :alt: Travis CI
 
-.. image:: https://img.shields.io/pypi/v/mincepy.svg
-    :target: https://pypi.python.org/pypi/mincepy/
+.. image:: https://img.shields.io/pypi/v/mincepy_sci.svg
+    :target: https://pypi.python.org/pypi/mincepy_sci/
     :alt: Latest Version
 
-.. image:: https://img.shields.io/pypi/wheel/mincepy.svg
-    :target: https://pypi.python.org/pypi/mincepy/
+.. image:: https://img.shields.io/pypi/wheel/mincepy_sci.svg
+    :target: https://pypi.python.org/pypi/mincepy_sci/
 
-.. image:: https://img.shields.io/pypi/pyversions/mincepy.svg
-    :target: https://pypi.python.org/pypi/mincepy/
+.. image:: https://img.shields.io/pypi/pyversions/mincepy_sci.svg
+    :target: https://pypi.python.org/pypi/mincepy_sci/
 
-.. image:: https://img.shields.io/pypi/l/mincepy.svg
-    :target: https://pypi.python.org/pypi/mincepy/
+.. image:: https://img.shields.io/pypi/l/mincepy_sci.svg
+    :target: https://pypi.python.org/pypi/mincepy_sci/
 
 
 mincePy: move the database to one side and let your objects take centre stage.
 
-MincePy is an `object-relational mapper`_ (ORM) using the `data mapper pattern`_ designed specifically for computational
-and data science.  What does this all mean??  It's simple really, it means you can store, find, get the history of and
-annotate any of your python objects either in your local database or one shared with your collaborators.
+MincePy Sci is a set of plugins for `mincePy`_ that enable common scientific data formats to be saved.
 
+See `mincepy documentation`_ for more information.
 
+This plugin provide support for:
 
-See `documentation`_ for more information.
+* ``pandas`` DataFrames
