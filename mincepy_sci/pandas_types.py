@@ -22,4 +22,4 @@ else:
             """Take the given blank object and load the instance state into it"""
             obj.__init__(**saved_state)
 
-    TYPES = (DataFrameHelper,)
+    TYPES = (DataFrameHelper(),)

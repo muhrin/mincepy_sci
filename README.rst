@@ -1,6 +1,10 @@
 .. _mincePy: https://github.com/muhrin/mincepy
 .. _mincepy documentation: https://mincepy.readthedocs.org/
 
+.. _ase: https://wiki.fysik.dtu.dk/ase/
+.. _numpy: https://numpy.org/
+.. _pandas: https://pandas.pydata.org/
+
 
 mincePy
 =======
@@ -35,4 +39,13 @@ See `mincepy documentation`_ for more information.
 
 This plugin provide support for:
 
-* ``pandas`` DataFrames
+`ase`_:
+    * ``Atoms``
+    * ``Cell``
+
+`numpy`_:
+    * ``ndarray``
+
+
+`pandas`_:
+    * ``DataFrame``
