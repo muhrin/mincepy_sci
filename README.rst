@@ -9,7 +9,7 @@
 mincePy
 =======
 
-.. image:: https://codecov.io/gh/muhrin/mincepy/branch/develop/graph/badge.svg
+.. image:: https://codecov.io/gh/muhrin/mincepy_sci/branch/develop/graph/badge.svg
     :target: https://codecov.io/gh/muhrin/mincepy_sci
     :alt: Coverage
 
