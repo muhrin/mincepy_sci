@@ -5,6 +5,7 @@
 .. _ase: https://wiki.fysik.dtu.dk/ase/
 .. _numpy: https://numpy.org/
 .. _pandas: https://pandas.pydata.org/
+.. _plams: https://www.scm.com/doc/plams/index.html
 
 
 mincePy Sci
@@ -47,6 +48,12 @@ This plugin provide support for:
 
 `pandas`_:
     * ``DataFrame``
+
+
+`plams`_:
+    * ``Settings``
+    * ``Molecule``
+    * ``Results``
 
 
 Contributing

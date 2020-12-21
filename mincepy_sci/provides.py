@@ -2,6 +2,7 @@
 from . import ase_types
 from . import numpy_types
 from . import pandas_types
+from . import plams_types
 
 
 def get_types():
@@ -10,5 +11,6 @@ def get_types():
     types.extend(ase_types.TYPES)
     types.extend(numpy_types.TYPES)
     types.extend(pandas_types.TYPES)
+    types.extend(plams_types.TYPES)
 
     return types
