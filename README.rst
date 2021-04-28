@@ -6,6 +6,7 @@
 .. _numpy: https://numpy.org/
 .. _pandas: https://pandas.pydata.org/
 .. _plams: https://www.scm.com/doc/plams/index.html
+.. _pymatgen: https://pymatgen.org/
 
 
 mincePy Sci
@@ -54,6 +55,12 @@ This plugin provide support for:
     * ``Settings``
     * ``Molecule``
     * ``Results``
+
+
+`pymatgen`_:
+    * ``Structure``
+    * ``BandStructure``
+    * ``CompleteDos``
 
 
 Contributing
