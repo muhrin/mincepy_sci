@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=wrong-import-position
+import json
+
 import pytest
 
 pymatgen_core = pytest.importorskip('pymatgen.core')
@@ -56,3 +58,19 @@ def test_saving_bandstructure(historian: mincepy.Historian):
     loaded_bandstructure = historian.load(
         bandstructure_id)  # type: pymatgen_bandstructure.BandStructure
     assert (loaded_bandstructure.kpoints[0].frac_coords == numpy.array([0., 0., 0.])).all()
+
+
+@pytest.fixture()
+def completedos_json_dict():
+    with open('test/res/mp-148_Si_CompleteDos.json', 'r') as stream:
+        return json.load(stream)
+
+
+def test_saving_completedos(historian: mincepy.Historian, completedos_json_dict):  # pylint: disable=redefined-outer-name
+    completedos = pymatgen_dos.CompleteDos.from_dict(completedos_json_dict)
+    completedos_id = historian.save(completedos)
+    del completedos
+
+    loaded_completedos = historian.load(completedos_id)  # type: pymatgen_dos.CompleteDos
+    assert loaded_completedos.efermi == 3.93446269
+    assert loaded_completedos.energies[0] == -24.7685

@@ -15,6 +15,17 @@ else:
     import pymatgen.electronic_structure.bandstructure as pymatgen_bandstructure
     import pymatgen.electronic_structure.dos as pymatgen_dos
 
+    def _clean_recursive(obj):
+        if isinstance(obj, collections.abc.Mapping):
+            clean_obj = {key: _clean_recursive(value) for key, value in obj.items()}
+        elif isinstance(obj, collections.abc.Sequence) and not isinstance(obj, str):
+            clean_obj = [_clean_recursive(item) for item in obj]
+        elif type(obj).__module__ == 'numpy':
+            clean_obj = obj.tolist()
+        else:
+            clean_obj = obj
+        return clean_obj
+
     class StructureHelper(mincepy.TypeHelper):
         TYPE = pymatgen.core.Structure
         TYPE_ID = uuid.UUID('b00aa5f5-f152-43c9-aeab-9710b0f045b1')
@@ -87,32 +98,12 @@ else:
         def save_instance_state(self, bandstructure: pymatgen_bandstructure.BandStructure,
                                 _referencer):
 
-            def clean_recursive(obj):
-                if isinstance(obj, collections.abc.Mapping):
-                    clean_obj = {key: clean_recursive(value) for key, value in obj.items()}
-                elif isinstance(obj, collections.abc.Sequence) and not isinstance(obj, str):
-                    clean_obj = [clean_recursive(item) for item in obj]
-                elif type(obj).__module__ == 'numpy':
-                    clean_obj = obj.tolist()
-                else:
-                    clean_obj = obj
-                return clean_obj
-
             # The `pymatgen.electronic_structure.bandstructure.Kpoints.as_dict` method uses
             # `list(numpy.array)` instead of `numpy.array.tolist()`, so there are numpy
             # numbers in the 'kpoints' and 'labels_dict' members of `BandStructure.as_dict`
-            # dictionaries. One could directly clean this up (see commented lines), or do it
-            # recursively, as we do here.
-
-            # bandstructure_dict['kpoints'] = [
-            #   [float(jtem) for jtem in item] for item in bandstructure_dict['kpoints']
-            # ]
-            # bandstructure_dict['labels_dict'] = {
-            #   key: [float(item) for item in value]
-            #   for key, value in bandstructure_dict['labels_dict'].items()
-            # }
-            bandstructure_dict = clean_recursive(bandstructure.as_dict())
-            return bandstructure_dict
+            # dictionaries, which need to be converted to python types. This issue is fixed
+            # in materialsproject/pymatgen #2113.
+            return _clean_recursive(bandstructure.as_dict())
 
         def new(self, encoded_saved_state):
             return pymatgen_bandstructure.BandStructure.from_dict(encoded_saved_state)
@@ -127,8 +118,8 @@ else:
         TYPE_ID = uuid.UUID('cf98144c-59e0-4235-8faa-3dd883651c6a')
         INJECT_CREATION_TRACKING = True
 
-        def yield_hashables(self, dos: pymatgen_dos.CompleteDos, hasher):  # pylint: disable=arguments-differ
-            yield from hasher.yield_hashables(dos.as_dict())
+        def yield_hashables(self, completedos: pymatgen_dos.CompleteDos, hasher):  # pylint: disable=arguments-differ
+            yield from hasher.yield_hashables(completedos.as_dict())
 
         def eq(self, one, other) -> bool:
             # pylint: disable=too-many-boolean-expressions
@@ -148,13 +139,15 @@ else:
 
             return False
 
-        def save_instance_state(self, dos: pymatgen_dos.CompleteDos, _referencer):  # pylint: disable=arguments-differ
-            return dos.as_dict()
+        def save_instance_state(self, completedos: pymatgen_dos.CompleteDos, _referencer):  # pylint: disable=arguments-differ
+            return _clean_recursive(completedos.as_dict())
 
         def new(self, encoded_saved_state):
             return pymatgen_dos.CompleteDos.from_dict(encoded_saved_state)
 
-        def load_instance_state(self, dos: pymatgen_dos.CompleteDos, saved_state, _referencer):  # pylint: disable=arguments-differ
+        # pylint: disable=arguments-differ
+        def load_instance_state(self, completedos: pymatgen_dos.CompleteDos, saved_state,
+                                _referencer):
             pass  # Nothing to do, did it all in new
 
     TYPES = (StructureHelper(), BandStructureHelper(), CompleteDosHelper())
