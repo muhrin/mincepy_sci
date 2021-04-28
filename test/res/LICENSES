@@ -1,0 +1,25 @@
+mp-148_Si_CompleteDos.json was downloaded from the Materials Project (version 2021_03_22) and is covered by a
+CC-BY license (https://creativecommons.org/licenses/by/4.0/).  No changes were made to the data.
+
+We acknowledge the following sources/tools:
+
+Materials Project:
+
+A. Jain*, S.P. Ong*, G. Hautier, W. Chen, W.D. Richards, S. Dacek, S. Cholia, D. Gunter, D. Skinner, G. Ceder, K.A. Persson (*=equal contributions)
+The Materials Project: A materials genome approach to accelerating materials innovation
+APL Materials, 2013, 1(1), 011002.
+doi:10.1063/1.4812323
+
+Materials API
+
+S. P. Ong, S. Cholia, A. Jain, M. Brafman, D. Gunter, G. Ceder, and K. A. Persson
+The Materials Application Programming Interface (API): A simple, flexible and efficient API for materials data based on REpresentational State Transfer (REST) principles.
+Computational Materials Science, 2015, 97, 209–215.
+doi:10.1016/j.commatsci.2014.10.037
+
+Pymatgen
+
+S. P. Ong, W. D. Richards, A. Jain, G. Hautier, M. Kocher, S. Cholia, D. Gunter, V. L. Chevrier, K. Persson, G. Ceder
+Python Materials Genomics (pymatgen) : A Robust, Open-Source Python Library for Materials Analysis.
+Computational Materials Science, 2013, 68, 314–319.
+doi:10.1016/j.commatsci.2012.10.028

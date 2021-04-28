@@ -8,3 +8,6 @@ include README.md
 
 # Force test subdirectories
 recursive-include test *.py
+
+# Test resources
+recursive-include test/res *
