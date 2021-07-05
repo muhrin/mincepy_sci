@@ -150,4 +150,30 @@ else:
                                 _referencer):
             pass  # Nothing to do, did it all in new
 
-    TYPES = (StructureHelper(), BandStructureHelper(), CompleteDosHelper())
+    class PeriodicSite(mincepy.TypeHelper):
+        TYPE = pymatgen.core.PeriodicSite
+        TYPE_ID = uuid.UUID('24ddfbb3-c3e6-432f-abd8-4542810ac002')
+        INJECT_CREATION_TRACKING = True
+
+        def yield_hashables(self, site: pymatgen.core.PeriodicSite, hasher):  # pylint: disable=arguments-differ
+            yield from hasher.yield_hashables(site.as_dict())
+
+        def eq(self, one, other) -> bool:
+            # pylint: disable=too-many-boolean-expressions
+            if not (isinstance(one, pymatgen.core.PeriodicSite) and
+                    isinstance(other, pymatgen.core.PeriodicSite)):
+                return False
+
+            return one == other  # Piggypack off the __eq__
+
+        def save_instance_state(self, site: pymatgen.core.PeriodicSite, _referencer):  # pylint: disable=arguments-differ
+            return _clean_recursive(site.as_dict())
+
+        def new(self, encoded_saved_state):
+            return pymatgen.core.PeriodicSite.from_dict(encoded_saved_state)
+
+        # pylint: disable=arguments-differ
+        def load_instance_state(self, site: pymatgen.core.PeriodicSite, saved_state, _referencer):
+            pass  # Nothing to do, did it all in new
+
+    TYPES = (StructureHelper(), BandStructureHelper(), CompleteDosHelper(), PeriodicSite())

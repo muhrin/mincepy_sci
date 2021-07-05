@@ -74,3 +74,16 @@ def test_saving_completedos(historian: mincepy.Historian, completedos_json_dict)
     loaded_completedos = historian.load(completedos_id)  # type: pymatgen_dos.CompleteDos
     assert loaded_completedos.efermi == 3.93446269
     assert loaded_completedos.energies[0] == -24.7685
+
+
+def test_periodic_site(historian: mincepy.Historian):
+    lattice = pymatgen_core.Lattice.from_parameters(1., 1., 1., 85., 52., 124.)
+    site = pymatgen_core.PeriodicSite('Li', coords=[0.2, 0.56, 0.235], lattice=lattice)
+
+    site_id = historian.save(site)
+    del site
+    loaded_site = historian.load(site_id)  # type: pymatgen_core.PeriodicSite
+    assert loaded_site.a == 0.2
+    assert loaded_site.b == 0.56
+    assert loaded_site.c == 0.235
+    assert loaded_site.lattice == lattice

@@ -61,6 +61,7 @@ This plugin provide support for:
     * ``Structure``
     * ``BandStructure``
     * ``CompleteDos``
+    * ``PeriodicSite``
 
 
 Contributing
