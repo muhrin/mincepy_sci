@@ -16,7 +16,16 @@ repos:
     rev: pylint-2.5.2
     hooks:
     -   id: pylint
-        language: system
+        additional_dependencies:
+          [
+              'ase',
+              'mincepy',
+              'numpy',
+              'pandas',
+              'plams',
+              'pymatgen',
+              'pytest',
+          ]
         args: [
             '--max-line-length=120',
             '--disable=duplicate-code',
