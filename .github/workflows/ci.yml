@@ -30,13 +30,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - name: Setup conda
+        uses: s-weigand/setup-conda@v1
         with:
+          update-conda: true
           python-version: ${{ matrix.python-version }}
+          conda-channels: anaconda, conda-forge
 
       - name: Install python dependencies
-        run: pip install -e .[dev,full]
+        run: |
+          conda install -y rdkit
+          pip install -e .[dev,full]
 
       - name: Create MongoDB Docker container
         id: build_mongo_docker

@@ -8,6 +8,7 @@
 .. _plams: https://www.scm.com/doc/plams/index.html
 .. _pyilt2: http://wgserve.de/pyilt2/
 .. _pymatgen: https://pymatgen.org/
+.. _rdkit: https://www.rdkit.org/
 
 
 mincePy Sci
@@ -68,6 +69,9 @@ This plugin provide support for:
     * ``CompleteDos``
     * ``PeriodicSite``
 
+
+`rdkit`_:
+    * ``Mol``
 
 Contributing
 ------------
