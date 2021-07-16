@@ -6,6 +6,7 @@
 .. _numpy: https://numpy.org/
 .. _pandas: https://pandas.pydata.org/
 .. _plams: https://www.scm.com/doc/plams/index.html
+.. _pyilt2: http://wgserve.de/pyilt2/
 .. _pymatgen: https://pymatgen.org/
 
 
@@ -56,6 +57,10 @@ This plugin provide support for:
     * ``Molecule``
     * ``Results``
 
+
+`pyilt2`_:
+    * ``dataset``
+(unfortunately the pypi version is out of date and so you should use an updated from from `here <https://github.com/muhrin/pyilt2>`_).
 
 `pymatgen`_:
     * ``Structure``
