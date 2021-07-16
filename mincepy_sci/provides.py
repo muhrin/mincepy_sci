@@ -5,6 +5,7 @@ from . import pandas_types
 from . import plams_types
 from . import pyilt2_types
 from . import pymatgen_types
+from . import rdkit_types
 
 
 def get_types():
@@ -16,5 +17,6 @@ def get_types():
     types.extend(plams_types.TYPES)
     types.extend(pyilt2_types.TYPES)
     types.extend(pymatgen_types.TYPES)
+    types.extend(rdkit_types.TYPES)
 
     return types

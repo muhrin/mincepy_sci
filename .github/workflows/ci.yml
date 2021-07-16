@@ -36,7 +36,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Install python dependencies
-        run: pip install -e .[dev,full]
+        run: |
+          $CONDA/bin/conda install -y -c conda-forge rdkit
+          pip install -e .[dev,full]
 
       - name: Create MongoDB Docker container
         id: build_mongo_docker
