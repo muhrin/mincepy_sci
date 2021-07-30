@@ -62,7 +62,7 @@ This plugin provide support for:
 `pyilt2`_:
     * ``dataset``
 
-(unfortunately the pypi version is out of date and so you should use an updated from from `here <https://github.com/muhrin/pyilt2>`_).
+(unfortunately the pypi version is out of date and so you should use an updated version from `here <https://github.com/muhrin/pyilt2>`_).
 
 `pymatgen`_:
     * ``Structure``
