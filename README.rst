@@ -66,6 +66,7 @@ This plugin provide support for:
 
 `pymatgen`_:
     * ``Structure``
+    * ``Molecule``
     * ``BandStructure``
     * ``CompleteDos``
     * ``PeriodicSite``

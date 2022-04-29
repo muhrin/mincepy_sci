@@ -46,6 +46,25 @@ else:
         def load_instance_state(self, structure: pymatgen.core.Structure, saved_state, _referencer):  # pylint: disable=arguments-differ
             pass  # Nothing to do, did it all in new
 
+    class MoleculeHelper(mincepy.TypeHelper):
+        TYPE = pymatgen.core.Molecule
+        TYPE_ID = uuid.UUID('d96f94c2-bc63-4abc-9e75-9d297b0ca9ad')
+
+        def yield_hashables(self, mol: pymatgen.core.Molecule, hasher):  # pylint: disable=arguments-differ
+            yield from hasher.yield_hashables(mol.as_dict())
+
+        def eq(self, one, other) -> bool:
+            return one == other
+
+        def save_instance_state(self, mol: pymatgen.core.Molecule, _referencer):  # pylint: disable=arguments-differ
+            return mol.as_dict()
+
+        def new(self, encoded_saved_state):
+            return pymatgen.core.Molecule.from_dict(encoded_saved_state)
+
+        def load_instance_state(self, structure: pymatgen.core.Molecule, saved_state, _referencer):  # pylint: disable=arguments-differ
+            pass  # Nothing to do, did it all in new
+
     class BandStructureHelper(mincepy.TypeHelper):
         TYPE = pymatgen_bandstructure.BandStructure
         TYPE_ID = uuid.UUID('690b9a99-3f1f-45e5-88eb-0448ceaff7dd')
@@ -63,12 +82,12 @@ else:
             # Check the cheap things first
             # pylint: disable=too-many-boolean-expressions
             if (len(one.kpoints) != len(other.kpoints)) or \
-               (one.lattice != other.lattice) or \
-               (one.efermi != other.efermi) or \
-               (one.is_spin_polarized != other.is_spin_polarized) or \
-               (one.nb_bands != other.nb_bands) or \
-               (one.structure != other.structure) or \
-               (len(one.projections) != len(other.projections)):
+                    (one.lattice != other.lattice) or \
+                    (one.efermi != other.efermi) or \
+                    (one.is_spin_polarized != other.is_spin_polarized) or \
+                    (one.nb_bands != other.nb_bands) or \
+                    (one.structure != other.structure) or \
+                    (len(one.projections) != len(other.projections)):
                 return False
 
             # Check expensive things one-by-one
@@ -128,13 +147,13 @@ else:
                 return False
 
             if (one.structure == other.structure) and \
-               (one.efermi == other.efermi) and \
-               (numpy.array(one.get_cbm_vbm()) == numpy.array(other.get_cbm_vbm())).all() and \
-               (one.energies == other.energies).all() and \
-               (numpy.array(one.densities.get(Spin.up, [])) ==
-                numpy.array(other.densities.get(Spin.up, []))).all() and \
-               (numpy.array(one.densities.get(Spin.down, [])) ==
-                numpy.array(other.densities.get(Spin.down, []))).all():
+                    (one.efermi == other.efermi) and \
+                    (numpy.array(one.get_cbm_vbm()) == numpy.array(other.get_cbm_vbm())).all() and \
+                    (one.energies == other.energies).all() and \
+                    (numpy.array(one.densities.get(Spin.up, [])) ==
+                     numpy.array(other.densities.get(Spin.up, []))).all() and \
+                    (numpy.array(one.densities.get(Spin.down, [])) ==
+                     numpy.array(other.densities.get(Spin.down, []))).all():
                 return True
 
             return False
@@ -176,4 +195,5 @@ else:
         def load_instance_state(self, site: pymatgen.core.PeriodicSite, saved_state, _referencer):
             pass  # Nothing to do, did it all in new
 
-    TYPES = (StructureHelper(), BandStructureHelper(), CompleteDosHelper(), PeriodicSite())
+    TYPES = (StructureHelper(), MoleculeHelper(), BandStructureHelper(), CompleteDosHelper(),
+             PeriodicSite())

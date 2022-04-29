@@ -23,9 +23,21 @@ def test_saving_structure(historian: mincepy.Historian):
     structure_id = historian.save(structure)
     del structure
 
-    loaded_structure = historian.load(structure_id)  # type: pymatgen_core.Structure
+    loaded_structure: pymatgen_core.Structure = historian.load(structure_id)
     assert all(loaded_structure.frac_coords[1] == [0., 0.5, 0.5])
-    assert loaded_structure.lattice.a == a_lat
+    assert numpy.all(loaded_structure.lattice.a == a_lat)
+
+
+def test_saving_molecule(historian: mincepy.Historian):
+    coords = [[0.000000, 0.000000, 0.000000], [0.000000, 0.000000, 1.089000],
+              [1.026719, 0.000000, -0.363000], [-0.513360, -0.889165, -0.363000],
+              [-0.513360, 0.889165, -0.363000]]
+    methane = pymatgen_core.Molecule(['C', 'H', 'H', 'H', 'H'], coords)
+    mol_id = historian.save(methane)
+    del methane
+
+    loaded_mol: pymatgen_core.Molecule = historian.load(mol_id)
+    assert numpy.all(loaded_mol.cart_coords == coords)
 
 
 def test_saving_bandstructure(historian: mincepy.Historian):
