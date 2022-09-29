@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=wrong-import-position
 import json
+import pathlib
 
 import pytest
 
@@ -74,7 +75,8 @@ def test_saving_bandstructure(historian: mincepy.Historian):
 
 @pytest.fixture()
 def completedos_json_dict():
-    with open('test/res/mp-148_Si_CompleteDos.json', 'r') as stream:
+    dospath = pathlib.Path(__file__).parent / 'res/mp-148_Si_CompleteDos.json'
+    with open(str(dospath), 'r') as stream:
         return json.load(stream)
 
 

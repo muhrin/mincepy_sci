@@ -8,6 +8,7 @@
 .. _plams: https://www.scm.com/doc/plams/index.html
 .. _pyilt2: http://wgserve.de/pyilt2/
 .. _pymatgen: https://pymatgen.org/
+.. _pytorch: https://pytorch.org/
 .. _rdkit: https://www.rdkit.org/
 
 
@@ -71,6 +72,10 @@ This plugin provide support for:
     * ``CompleteDos``
     * ``PeriodicSite``
 
+
+`pytorch`_:
+    * ``Tensor``
+    * ``Module`` (using mixin or type helper)
 
 `rdkit`_:
     * ``Mol``
