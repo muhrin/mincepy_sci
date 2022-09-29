@@ -6,7 +6,7 @@ __license__ = 'LGPLv3'
 
 about = {}
 with open('mincepy_sci/version.py') as f:
-    exec(f.read(), about)
+    exec(f.read(), about)  # nosec
 
 setup(name='mincepy_sci',
       version=about['__version__'],
@@ -23,9 +23,10 @@ setup(name='mincepy_sci',
           'Programming Language :: Python :: 3.7',
           'Programming Language :: Python :: 3.8',
           'Programming Language :: Python :: 3.9',
+          'Programming Language :: Python :: 3.10',
       ],
       keywords='database schemaless nosql orm object-store concurrent optimistic-locking',
-      install_requires=['mincepy>=0.15.20'],
+      install_requires=['mincepy>=0.15.20', 'bidict'],
       extras_require={
           'dev': [
               'pip',
