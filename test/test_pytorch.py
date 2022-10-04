@@ -29,13 +29,13 @@ def test_saving_module_inheritance(historian: mincepy.Historian):
     Example from:
     https://pytorch.org/tutorials/beginner/saving_loading_models.html"""
     model = TheSavableModelClass()
-    state_dict = copy.deepcopy(model.state_dict(destination=None))
+    state_dict = copy.deepcopy(model.state_dict())  # pylint: disable=missing-kwoa
 
     model_id = historian.save(model)
     del model
 
     loaded = historian.load(model_id)
-    _compare_dicts(state_dict, loaded.state_dict(destination=None))
+    _compare_dicts(state_dict, loaded.state_dict())
 
 
 def test_saving_module_type_helper(historian: mincepy.Historian):
@@ -46,7 +46,7 @@ def test_saving_module_type_helper(historian: mincepy.Historian):
     historian.register_type(TheModelClassHelper)
 
     model = TheModelClass()
-    state_dict = copy.deepcopy(model.state_dict(destination=None))
+    state_dict = copy.deepcopy(model.state_dict())  # pylint: disable=missing-kwoa
 
     model_id = historian.save(model)
     del model
