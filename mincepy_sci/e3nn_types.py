@@ -14,10 +14,10 @@ class IrrepHelper(mincepy.BaseHelper):
 
     # pylint: disable=arguments-differ
 
-    def yield_hashables(self, irrep: o3.Irreps, hasher):
-        yield from irrep
+    def yield_hashables(self, irrep: o3.Irrep, hasher):
+        yield from hasher.yield_hashables(str(irrep))
 
-    def save_instance_state(self, irrep: o3.Irreps, saver: mincepy.Saver):
+    def save_instance_state(self, irrep: o3.Irrep, saver: mincepy.Saver):
         return str(irrep)
 
     def new(self, saved_state: str) -> o3.Irrep:
@@ -36,7 +36,7 @@ class IrrepsHelper(mincepy.BaseHelper):
     # pylint: disable=arguments-differ
 
     def yield_hashables(self, irreps: o3.Irreps, hasher):
-        yield from irreps
+        yield from hasher.yield_hashables(str(irreps))
 
     def save_instance_state(self, irreps: o3.Irreps, saver: mincepy.Saver):
         return str(irreps)

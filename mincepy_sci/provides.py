@@ -21,7 +21,7 @@ def get_types():
 def _extend(types: list, module_name: str):
     try:
         mod = importlib.import_module(f"mincepy_sci.{module_name}")
-    except ImportError as exc:
-        print(exc)
+    except ImportError:
+        pass
     else:
         types.extend(mod.TYPES)

@@ -83,6 +83,7 @@ def test_saving_irrep(historian: mincepy.Historian):
         lambda: mincepy.builtins.ObjProxy(o3.Irrep(irrep_str)),
     )()
 
+    assert historian.hash(loaded) is not None
     assert str(loaded) == irrep_str
 
 
@@ -93,6 +94,7 @@ def test_saving_irreps(historian: mincepy.Historian):
         lambda: mincepy.builtins.ObjProxy(o3.Irreps(irreps_str)),
     )()
 
+    assert historian.hash(loaded) is not None
     assert str(loaded) == irreps_str
 
 
