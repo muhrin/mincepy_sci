@@ -1,26 +1,27 @@
 # -*- coding: utf-8 -*-
-from . import ase_types
-from . import e3nn_types
-from . import numpy_types
-from . import pandas_types
-from . import plams_types
-from . import pyilt2_types
-from . import pymatgen_types
-from . import rdkit_types
-from . import pytorch_types
+import importlib
 
 
 def get_types():
     """The central entry point"""
     types = list()
-    types.extend(ase_types.TYPES)
-    types.extend(e3nn_types.TYPES)
-    types.extend(numpy_types.TYPES)
-    types.extend(pandas_types.TYPES)
-    types.extend(plams_types.TYPES)
-    types.extend(pyilt2_types.TYPES)
-    types.extend(pymatgen_types.TYPES)
-    types.extend(pytorch_types.TYPES)
-    types.extend(rdkit_types.TYPES)
+    _extend(types, "ase_types")
+    _extend(types, "e3nn_types")
+    _extend(types, "numpy_types")
+    _extend(types, "pandas_types")
+    _extend(types, "plams_types")
+    _extend(types, "pyilt2_types")
+    _extend(types, "pymatgen_types")
+    _extend(types, "pytorch_types")
+    _extend(types, "rdkit_types")
 
     return types
+
+
+def _extend(types: list, module_name: str):
+    try:
+        mod = importlib.import_module(f"mincepy_sci.{module_name}")
+    except ImportError as exc:
+        print(exc)
+    else:
+        types.extend(mod.TYPES)
