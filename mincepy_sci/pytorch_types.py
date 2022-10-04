@@ -78,10 +78,12 @@ else:
             return dict(model.state_dict())
 
         def load_instance_state(
-            self, model: torch.nn.Module, saved_state: dict, _referencer
+            self, module: torch.nn.Module, saved_state: dict, _referencer
         ):
-            model.load_state_dict(saved_state)
-            model.eval()
+            # Need to call at least the Module constructor so that it creates some necessary members
+            module.__init__()
+            module.load_state_dict(saved_state)
+            module.eval()
 
     class SavableModuleMixin(mincepy.SavableObject):
         """Mixin for a pytorch module that provides the boilerplate needed to make it savable"""
