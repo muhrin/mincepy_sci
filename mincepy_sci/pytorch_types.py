@@ -12,6 +12,7 @@ else:
     import bidict
     import mincepy
 
+    # pylint: disable=no-member
     torch_dtypes = bidict.bidict({
         'bool': torch.bool,
         'uint8': torch.uint8,
@@ -69,9 +70,6 @@ else:
 
         def save_instance_state(self, model: torch.nn.Module, _saver):
             return dict(model.state_dict())
-
-        def new(self, encoded_saved_state):
-            return self.TYPE()  # pylint: disable=not-callable
 
         def load_instance_state(self, model: torch.nn.Module, saved_state: dict, _referencer):
             model.load_state_dict(saved_state)

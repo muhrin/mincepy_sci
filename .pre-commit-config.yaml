@@ -19,12 +19,14 @@ repos:
         additional_dependencies:
           [
               'ase',
+              'e3nn',
               'mincepy',
               'numpy',
               'pandas',
               'plams',
               'pymatgen',
               'pytest',
+              'torch'
           ]
         args: [
             '--max-line-length=120',

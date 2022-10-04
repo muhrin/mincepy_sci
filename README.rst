@@ -3,6 +3,7 @@
 .. _issue: https://github.com/muhrin/mincepy_sci/issues
 
 .. _ase: https://wiki.fysik.dtu.dk/ase/
+.. _e3nn: https://docs.e3nn.org/en/stable/
 .. _numpy: https://numpy.org/
 .. _pandas: https://pandas.pydata.org/
 .. _plams: https://www.scm.com/doc/plams/index.html
@@ -41,6 +42,11 @@ MincePy Sci is a set of plugins for `mincePy`_ that enable common scientific dat
 See `mincepy documentation`_ for more information.
 
 This plugin provide support for:
+
+`e3nn`_:
+    * ``Irrep`` and ``Irreps``
+    * ``ReducedTensorProduct``
+    * ``TensorProduct``
 
 `ase`_:
     * ``Atoms``

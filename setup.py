@@ -26,7 +26,7 @@ setup(name='mincepy_sci',
           'Programming Language :: Python :: 3.10',
       ],
       keywords='database schemaless nosql orm object-store concurrent optimistic-locking',
-      install_requires=['mincepy>=0.15.20', 'bidict'],
+      install_requires=['mincepy>=0.16.4', 'bidict'],
       extras_require={
           'dev': [
               'pip',
