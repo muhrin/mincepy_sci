@@ -34,6 +34,8 @@ mincePy Sci
 .. image:: https://img.shields.io/pypi/l/mincepy-sci.svg
     :target: https://pypi.python.org/pypi/mincepy_sci/
 
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
 
 mincePy: move the database to one side and let your objects take centre stage.
 

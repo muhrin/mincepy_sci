@@ -11,7 +11,7 @@ from . import pytorch_types
 
 
 def get_types():
-    """The central entry point """
+    """The central entry point"""
     types = list()
     types.extend(ase_types.TYPES)
     types.extend(e3nn_types.TYPES)

@@ -2,7 +2,7 @@
 # pylint: disable=wrong-import-position, invalid-name
 import pytest
 
-numpy = pytest.importorskip('scm.plams')
+numpy = pytest.importorskip("scm.plams")
 
 import mincepy
 
@@ -13,26 +13,28 @@ def test_saving_plams_settings(historian: mincepy.Historian):
     from scm import plams
 
     settings = plams.Settings()
-    settings.sub.a = 'a'
-    settings.sub.b = 'b'
-    settings.top = 'top'
+    settings.sub.a = "a"
+    settings.sub.b = "b"
+    settings.top = "top"
 
     settings_id = historian.save(settings)
     del settings
 
     loaded = historian.load(settings_id)
     assert isinstance(loaded.sub, plams.Settings)
-    assert loaded.sub.a == 'a'
-    assert loaded.sub.b == 'b'
-    assert loaded.top == 'top'
+    assert loaded.sub.a == "a"
+    assert loaded.sub.b == "b"
+    assert loaded.top == "top"
 
 
 def test_saving_plams_molecule(historian: mincepy.Historian):
     from scm import plams
 
-    atoms_list = (plams.Atom(symbol='O', coords=(0, 0, 0)), plams.Atom(symbol='H',
-                                                                       coords=(1, 0, 0)),
-                  plams.Atom(symbol='H', coords=(0, 1, 0)))
+    atoms_list = (
+        plams.Atom(symbol="O", coords=(0, 0, 0)),
+        plams.Atom(symbol="H", coords=(1, 0, 0)),
+        plams.Atom(symbol="H", coords=(0, 1, 0)),
+    )
     atoms_list[0].properties.my_favourite = True
 
     mol = plams.Molecule()
@@ -52,7 +54,7 @@ def test_saving_plams_molecule(historian: mincepy.Historian):
 
 
 def atom_eq(atom1, atom2):
-    for attr in ('atnum', 'coords', 'properties'):
+    for attr in ("atnum", "coords", "properties"):
         if getattr(atom1, attr) != getattr(atom2, attr):
             return False
 

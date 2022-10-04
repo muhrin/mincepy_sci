@@ -5,7 +5,7 @@ import uuid
 
 import pytest
 
-torch = pytest.importorskip('torch')
+torch = pytest.importorskip("torch")
 
 import mincepy
 from torch import nn  # pylint: disable=import-error
@@ -62,7 +62,6 @@ def _compare_dicts(dict1, dict2):
 
 
 class TheModelClass(nn.Module):
-
     def __init__(self):
         super(TheModelClass, self).__init__()
         self.conv1 = nn.Conv2d(3, 6, 5)
@@ -84,8 +83,8 @@ class TheModelClass(nn.Module):
 
 class TheModelClassHelper(pytorch_types.ModuleHelperStub):
     TYPE = TheModelClass
-    TYPE_ID = uuid.UUID('1df0f5aa-42a2-4fb5-8efc-f03339dfe306')
+    TYPE_ID = uuid.UUID("1df0f5aa-42a2-4fb5-8efc-f03339dfe306")
 
 
 class TheSavableModelClass(TheModelClass, pytorch_types.SavableModuleMixin):
-    TYPE_ID = uuid.UUID('1df0f5aa-42a2-4fb5-8efc-f03339dfe306')
+    TYPE_ID = uuid.UUID("1df0f5aa-42a2-4fb5-8efc-f03339dfe306")

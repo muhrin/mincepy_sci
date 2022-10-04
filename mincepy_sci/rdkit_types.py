@@ -15,7 +15,7 @@ else:
 
     class MolHelper(mincepy.BaseHelper):
         TYPE = Chem.rdchem.Mol
-        TYPE_ID = uuid.UUID('4810acf6-624c-419f-998c-f1a6dcf9def0')
+        TYPE_ID = uuid.UUID("4810acf6-624c-419f-998c-f1a6dcf9def0")
 
         # pylint: disable=arguments-differ
 
@@ -29,7 +29,9 @@ else:
         def new(self, encoded_saved_state: dict):
             return Chem.rdMolInterchange.JSONToMols(json.dumps(encoded_saved_state))[0]
 
-        def load_instance_state(self, mol: Chem.rdchem.Mol, saved_state, _referencer):  # pylint: disable=arguments-differ
+        def load_instance_state(
+            self, mol: Chem.rdchem.Mol, saved_state, _referencer
+        ):  # pylint: disable=arguments-differ
             pass  # Nothing to do, did it all in new
 
     TYPES = (MolHelper(),)

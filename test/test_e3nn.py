@@ -4,34 +4,35 @@ import random
 
 import pytest
 
-torch = pytest.importorskip('torch')
-
+torch = pytest.importorskip("torch")
 import mincepy
 from mincepy import testing
 from e3nn import o3
 import e3nn.util.test
+
 
 # region: From e3nn tests.  Copyright belongs to e3nn under MIT license
 
 # pylint: disable=invalid-name
 
 
-def make_tp(l1,
-            p1,
-            l2,
-            p2,
-            lo,
-            po,
-            mode,
-            weight,
-            mul: int = 25,
-            path_weights: bool = True,
-            **kwargs):
-
+def make_tp(
+    l1,
+    p1,
+    l2,
+    p2,
+    lo,
+    po,
+    mode,
+    weight,
+    mul: int = 25,
+    path_weights: bool = True,
+    **kwargs
+):
     def mul_out(mul):
-        if mode == 'uvuv':
+        if mode == "uvuv":
             return mul**2
-        if mode == 'uvu<v':
+        if mode == "uvu<v":
             return mul * (mul - 1) // 2
         return mul
 
@@ -45,8 +46,8 @@ def make_tp(l1,
             [
                 (0, 0, 0, mode, weight),
                 (1, 1, 1, mode, weight),
-                (0, 0, 1, 'uvw', True, 0.5 if path_weights else 1.0),
-                (0, 1, 1, 'uvw', True, 0.2 if path_weights else 1.0),
+                (0, 0, 1, "uvw", True, 0.5 if path_weights else 1.0),
+                (0, 1, 1, "uvw", True, 0.2 if path_weights else 1.0),
             ],
             compile_left_right=True,
             compile_right=True,
@@ -65,7 +66,7 @@ def random_params(n=25):
         p2 = random.choice([-1, 1])
         lo = random.randint(0, 2)
         po = random.choice([-1, 1])
-        mode = random.choice(['uvw', 'uvu', 'uvv', 'uuw', 'uuu', 'uvuv'])
+        mode = random.choice(["uvw", "uvu", "uvv", "uuw", "uuu", "uvuv"])
         weight = random.choice([True, False])
         if make_tp(l1, p1, l2, p2, lo, po, mode, weight) is not None:
             params.add((l1, p1, l2, p2, lo, po, mode, weight))
@@ -76,7 +77,7 @@ def random_params(n=25):
 
 
 def test_saving_irrep(historian: mincepy.Historian):
-    irrep_str = '4e'
+    irrep_str = "4e"
     loaded = testing.do_round_trip(
         historian,
         lambda: mincepy.builtins.ObjProxy(o3.Irrep(irrep_str)),
@@ -86,7 +87,7 @@ def test_saving_irrep(historian: mincepy.Historian):
 
 
 def test_saving_irreps(historian: mincepy.Historian):
-    irreps_str = '2x0e+3x1o'
+    irreps_str = "2x0e+3x1o"
     loaded = testing.do_round_trip(
         historian,
         lambda: mincepy.builtins.ObjProxy(o3.Irreps(irreps_str)),
@@ -95,8 +96,10 @@ def test_saving_irreps(historian: mincepy.Historian):
     assert str(loaded) == irreps_str
 
 
-@pytest.mark.parametrize('l1, p1, l2, p2, lo, po, mode, weight', random_params(n=1))
-def test_saving_tensor_product(l1, p1, l2, p2, lo, po, mode, weight, historian: mincepy.Historian):
+@pytest.mark.parametrize("l1, p1, l2, p2, lo, po, mode, weight", random_params(n=1))
+def test_saving_tensor_product(
+    l1, p1, l2, p2, lo, po, mode, weight, historian: mincepy.Historian
+):
     args = l1, p1, l2, p2, lo, po, mode, weight
     tp = make_tp(*args)
     # Saved TP
@@ -120,13 +123,14 @@ def _make_auto_jitable(*args, **kwargs):
 
 
 def test_saving_reduced_tensor_product(historian: mincepy.Historian):
-    perm = 'ij=-ji'
-    irreps = o3.Irreps('5x0e + 1e')
+    perm = "ij=-ji"
+    irreps = o3.Irreps("5x0e + 1e")
     kwargs = dict(i=irreps)
 
     reference = o3.ReducedTensorProducts(perm, **kwargs)
-    loaded: o3.ReducedTensorProducts = testing.do_round_trip(historian, o3.ReducedTensorProducts,
-                                                             perm, **kwargs)
+    loaded: o3.ReducedTensorProducts = testing.do_round_trip(
+        historian, o3.ReducedTensorProducts, perm, **kwargs
+    )
 
     assert reference.irreps_in == loaded.irreps_in
     assert reference.irreps_out == loaded.irreps_out
