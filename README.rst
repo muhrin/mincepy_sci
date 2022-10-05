@@ -46,9 +46,19 @@ See `mincepy documentation`_ for more information.
 This plugin provide support for:
 
 `e3nn`_:
-    * ``Irrep`` and ``Irreps``
-    * ``ReducedTensorProduct``
-    * ``TensorProduct``
+    * ``o3``:
+        * ``Irrep`` and ``Irreps``
+        * ``ReducedTensorProduct``
+        * ``TensorProduct``
+        * ``TensorSquare``
+    * ``nn``:
+        * ``Gate``
+        * ``Shortcut``
+        * ``Extract``
+        * ``Activation``
+    * ``math``:
+        * ``normalize2mom``
+
 
 `ase`_:
     * ``Atoms``
@@ -83,7 +93,12 @@ This plugin provide support for:
 
 `pytorch`_:
     * ``Tensor``
-    * ``Module`` (using mixin or type helper)
+    * ``Conv2d``
+    * ``MaxPool2d``
+    * ``Linear``
+    * ``ModuleList``
+    * ``ModuleDict``
+
 
 `rdkit`_:
     * ``Mol``

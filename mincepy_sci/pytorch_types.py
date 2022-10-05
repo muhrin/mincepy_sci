@@ -108,4 +108,21 @@ class SavableModuleMixin(mincepy.SavableObject):
             setattr(self, key, value)
 
 
-TYPES = (TensorHelper, Conv2dHelper, MaxPool2dHelper, LinearHelper)
+class ModuleListHelper(ModuleHelperStub):
+    TYPE = torch.nn.ModuleList
+    TYPE_ID = uuid.UUID("76fd8263-76c0-4bc4-858e-78e99ad7e332")
+
+
+class ModuleDictHelper(ModuleHelperStub):
+    TYPE = torch.nn.ModuleDict
+    TYPE_ID = uuid.UUID("82037c10-7937-4e6f-a6c5-2e022e869186")
+
+
+TYPES = (
+    TensorHelper,
+    Conv2dHelper,
+    MaxPool2dHelper,
+    LinearHelper,
+    ModuleListHelper,
+    ModuleDictHelper,
+)
