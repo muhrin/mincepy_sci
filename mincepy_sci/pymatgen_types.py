@@ -1,15 +1,14 @@
-# -*- coding: utf-8 -*-
 """Module that provides interoperability between pymatgen and mincepy"""
-
-import uuid
 
 # pylint: disable=ungrouped-imports
 import collections.abc
+import uuid
+
 import mincepy
 import numpy
 import pymatgen.core
-from pymatgen.electronic_structure.core import Spin
 import pymatgen.electronic_structure.bandstructure as pymatgen_bandstructure
+from pymatgen.electronic_structure.core import Spin
 import pymatgen.electronic_structure.dos as pymatgen_dos
 
 
@@ -36,9 +35,7 @@ class StructureHelper(mincepy.TypeHelper):
         yield from hasher.yield_hashables(structure.as_dict())
 
     def eq(self, one, other) -> bool:
-        return (
-            one == other
-        )  # pymatgen.core.IStructure defines __eq__, which Structure inherits
+        return one == other  # pymatgen.core.IStructure defines __eq__, which Structure inherits
 
     def save_instance_state(
         self, structure: pymatgen.core.Structure, _referencer
@@ -119,14 +116,12 @@ class BandStructureHelper(mincepy.TypeHelper):
             return False
 
         if not (
-            numpy.array(one.bands.get(Spin.up, []))
-            == numpy.array(other.bands.get(Spin.up, []))
+            numpy.array(one.bands.get(Spin.up, [])) == numpy.array(other.bands.get(Spin.up, []))
         ).all():
             return False
 
         if not (
-            numpy.array(one.bands.get(Spin.down, []))
-            == numpy.array(other.bands.get(Spin.down, []))
+            numpy.array(one.bands.get(Spin.down, [])) == numpy.array(other.bands.get(Spin.down, []))
         ).all():
             return False
 
@@ -145,9 +140,7 @@ class BandStructureHelper(mincepy.TypeHelper):
         return True
 
     # pylint: disable=arguments-differ
-    def save_instance_state(
-        self, bandstructure: pymatgen_bandstructure.BandStructure, _referencer
-    ):
+    def save_instance_state(self, bandstructure: pymatgen_bandstructure.BandStructure, _referencer):
 
         # The `pymatgen.electronic_structure.bandstructure.Kpoints.as_dict` method uses
         # `list(numpy.array)` instead of `numpy.array.tolist()`, so there are numpy
@@ -190,9 +183,7 @@ class CompleteDosHelper(mincepy.TypeHelper):
         if (
             (one.structure == other.structure)
             and (one.efermi == other.efermi)
-            and (
-                numpy.array(one.get_cbm_vbm()) == numpy.array(other.get_cbm_vbm())
-            ).all()
+            and (numpy.array(one.get_cbm_vbm()) == numpy.array(other.get_cbm_vbm())).all()
             and (one.energies == other.energies).all()
             and (
                 numpy.array(one.densities.get(Spin.up, []))
@@ -216,9 +207,7 @@ class CompleteDosHelper(mincepy.TypeHelper):
         return pymatgen_dos.CompleteDos.from_dict(encoded_saved_state)
 
     # pylint: disable=arguments-differ
-    def load_instance_state(
-        self, completedos: pymatgen_dos.CompleteDos, saved_state, _referencer
-    ):
+    def load_instance_state(self, completedos: pymatgen_dos.CompleteDos, saved_state, _referencer):
         pass  # Nothing to do, did it all in new
 
 
@@ -251,16 +240,14 @@ class PeriodicSite(mincepy.TypeHelper):
         return pymatgen.core.PeriodicSite.from_dict(encoded_saved_state)
 
     # pylint: disable=arguments-differ
-    def load_instance_state(
-        self, site: pymatgen.core.PeriodicSite, saved_state, _referencer
-    ):
+    def load_instance_state(self, site: pymatgen.core.PeriodicSite, saved_state, _referencer):
         pass  # Nothing to do, did it all in new
 
 
 TYPES = (
-    StructureHelper(),
-    MoleculeHelper(),
-    BandStructureHelper(),
-    CompleteDosHelper(),
-    PeriodicSite(),
+    StructureHelper,
+    MoleculeHelper,
+    BandStructureHelper,
+    CompleteDosHelper,
+    PeriodicSite,
 )

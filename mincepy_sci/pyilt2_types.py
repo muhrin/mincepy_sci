@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import uuid
 
 import mincepy
@@ -19,4 +18,4 @@ class DatasetHelper(mincepy.TypeHelper):
     phases = mincepy.field()
 
 
-TYPES = (DatasetHelper(),)
+TYPES = (DatasetHelper,)

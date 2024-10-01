@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=wrong-import-position, invalid-name
-import pytest
-
 import mincepy
+import pytest
 
 numpy = pytest.importorskip("numpy")
 

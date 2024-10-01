@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import pytest
 
 pandas = pytest.importorskip("pandas")

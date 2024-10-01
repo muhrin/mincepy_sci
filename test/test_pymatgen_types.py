@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=wrong-import-position
 import json
 import pathlib
@@ -6,12 +5,8 @@ import pathlib
 import pytest
 
 pymatgen_core = pytest.importorskip("pymatgen.core")
-pymatgen_electronic_structure = pytest.importorskip(
-    "pymatgen.electronic_structure.core"
-)
-pymatgen_bandstructure = pytest.importorskip(
-    "pymatgen.electronic_structure.bandstructure"
-)
+pymatgen_electronic_structure = pytest.importorskip("pymatgen.electronic_structure.core")
+pymatgen_bandstructure = pytest.importorskip("pymatgen.electronic_structure.bandstructure")
 pymatgen_dos = pytest.importorskip("pymatgen.electronic_structure.dos")
 
 import mincepy
@@ -61,12 +56,8 @@ def test_saving_bandstructure(historian: mincepy.Historian):
     lattice = structure.lattice
     kpoints = [numpy.array([0.0, 0.0, 0.0])]
     eigenvals = {
-        pymatgen_electronic_structure.Spin.up: numpy.array(
-            [[0.0], [1.0], [2.0], [3.0]]
-        ),
-        pymatgen_electronic_structure.Spin.down: numpy.array(
-            [[0.5], [1.5], [2.5], [3.5]]
-        ),
+        pymatgen_electronic_structure.Spin.up: numpy.array([[0.0], [1.0], [2.0], [3.0]]),
+        pymatgen_electronic_structure.Spin.down: numpy.array([[0.5], [1.5], [2.5], [3.5]]),
     }
     efermi = 1.75
     labels_dict = {"gamma": [0.0, 0.0, 0.0]}
@@ -87,9 +78,7 @@ def test_saving_bandstructure(historian: mincepy.Historian):
     loaded_bandstructure = historian.load(
         bandstructure_id
     )  # type: pymatgen_bandstructure.BandStructure
-    assert (
-        loaded_bandstructure.kpoints[0].frac_coords == numpy.array([0.0, 0.0, 0.0])
-    ).all()
+    assert (loaded_bandstructure.kpoints[0].frac_coords == numpy.array([0.0, 0.0, 0.0])).all()
 
 
 @pytest.fixture()
@@ -106,9 +95,7 @@ def test_saving_completedos(
     completedos_id = historian.save(completedos)
     del completedos
 
-    loaded_completedos = historian.load(
-        completedos_id
-    )  # type: pymatgen_dos.CompleteDos
+    loaded_completedos = historian.load(completedos_id)  # type: pymatgen_dos.CompleteDos
     assert loaded_completedos.efermi == 3.93446269
     assert loaded_completedos.energies[0] == -24.7685
 

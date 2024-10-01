@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 """Module that provides interoperability between ase and mincepy"""
 
 import uuid
 
+import ase.calculators.calculator as ase_calculator
 import ase.cell
 import ase.db.row
-import ase.calculators.calculator as ase_calculator
 import mincepy
 
 __all__ = "AtomsHelper", "CellHelper"
@@ -20,9 +19,7 @@ class AtomsHelper(mincepy.TypeHelper):
         super().__init__()
         self._load_original_calculator = load_original_calculator
 
-    def yield_hashables(
-        self, atoms: ase.Atoms, hasher
-    ):  # pylint: disable=arguments-differ
+    def yield_hashables(self, atoms: ase.Atoms, hasher):  # pylint: disable=arguments-differ
         yield from hasher.yield_hashables(atoms.cell)
         yield from hasher.yield_hashables(atoms.pbc)
         yield from hasher.yield_hashables(atoms.positions)
@@ -40,9 +37,7 @@ class AtomsHelper(mincepy.TypeHelper):
             and (one.pbc == other.pbc).all()
         )
 
-    def save_instance_state(
-        self, atoms: ase.Atoms, saver
-    ):  # pylint: disable=arguments-differ
+    def save_instance_state(self, atoms: ase.Atoms, saver):  # pylint: disable=arguments-differ
         return ase.db.row.atoms2dict(atoms)
 
     def load_instance_state(
@@ -51,7 +46,7 @@ class AtomsHelper(mincepy.TypeHelper):
         """Much of this is taken from ase.db.row.AtomsRow.toatoms() and therefore may
         need to be updated if the ase code changes"""
         row = ase.db.row.AtomsRow(saved_state)
-        atoms.__init__(
+        atoms.__init__(  # pylint: disable=unnecessary-dunder-call
             row.numbers,  # pylint: disable=no-member
             row.positions,  # pylint: disable=no-member
             cell=row.cell,
@@ -77,9 +72,7 @@ class AtomsHelper(mincepy.TypeHelper):
                 if prop in row:
                     results[prop] = row[prop]
             if results:
-                atoms.calc = ase.calculators.singlepoint.SinglePointCalculator(
-                    atoms, **results
-                )
+                atoms.calc = ase.calculators.singlepoint.SinglePointCalculator(atoms, **results)
                 atoms.calc.name = row.get("calculator", "unknown")
 
         atoms.info = {}
@@ -98,9 +91,7 @@ class CellHelper(mincepy.TypeHelper):
     TYPE_ID = uuid.UUID("4eea34e2-df87-420e-b51e-7d015bb1d3cb")
     INJECT_CREATION_TRACKING = True
 
-    def yield_hashables(
-        self, cell: ase.cell.Cell, hasher
-    ):  # pylint: disable=arguments-differ
+    def yield_hashables(self, cell: ase.cell.Cell, hasher):  # pylint: disable=arguments-differ
         yield from hasher.yield_hashables(cell.array.tolist())
 
     def eq(self, one, other) -> bool:
@@ -121,8 +112,8 @@ class CellHelper(mincepy.TypeHelper):
     def load_instance_state(
         self, cell: ase.cell.Cell, saved_state, _referencer
     ):  # pylint: disable=arguments-differ
-        cell.__init__(saved_state["array"])
+        cell.__init__(saved_state["array"])  # pylint: disable=unnecessary-dunder-call
         return cell
 
 
-TYPES = CellHelper(), AtomsHelper()
+TYPES = CellHelper, AtomsHelper

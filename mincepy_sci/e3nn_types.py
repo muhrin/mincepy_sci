@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
 """Module that provides interoperability between pymatgen and mincepy"""
+
 import copy
 import pickle  # nosec
 import uuid
 
-from e3nn import math
-from e3nn import nn
-from e3nn import o3
+from e3nn import math, nn, o3
 import mincepy
 import torch
 
@@ -63,14 +61,10 @@ class CodeGenMixinHelper(mincepy.TypeHelper):
     def yield_hashables(self, rtp: o3.ReducedTensorProducts, hasher):
         yield from hasher.yield_hashables(rtp.__getstate__())
 
-    def save_instance_state(
-        self, rtp: o3.ReducedTensorProducts, saver: mincepy.Saver
-    ) -> dict:
+    def save_instance_state(self, rtp: o3.ReducedTensorProducts, saver: mincepy.Saver) -> dict:
         return rtp.__getstate__()
 
-    def load_instance_state(
-        self, rtp: o3.ReducedTensorProducts, saved_state: dict, _referencer
-    ):
+    def load_instance_state(self, rtp: o3.ReducedTensorProducts, saved_state: dict, _referencer):
         rtp.__setstate__(saved_state)
 
 
@@ -119,6 +113,7 @@ class ReducedTensorProductsHelper(CodeGenMixinHelper):
 
 # endregion
 
+
 # region nn
 class GateHelper(pytorch_types.ModuleHelperStub):
     TYPE = nn.Gate
@@ -129,7 +124,7 @@ class GateHelper(pytorch_types.ModuleHelperStub):
 
 
 class ShortcutHelper(pytorch_types.ModuleHelperStub):
-    TYPE = nn._gate._Sortcut
+    TYPE = nn._gate._Sortcut  # pylint: disable=protected-access
     TYPE_ID = uuid.UUID("c1de96e4-0963-4528-8d8e-87711049cc7b")
 
 
@@ -145,10 +140,11 @@ class ActivationHelper(pytorch_types.ModuleHelperStub):
 
 # endregion
 
+
 # region math
 class Normalize2MomHelper(pytorch_types.ModuleHelperStub):
-    """We need a little custom saving code here because normalize2mom contains a reference to a function (self.f) which
-    mincepy cannot serialise correctly."""
+    """We need a little custom saving code here because normalize2mom contains a reference to a
+    function (self.f) which mincepy cannot serialise correctly."""
 
     TYPE = math.normalize2mom
     TYPE_ID = uuid.UUID("fd535825-95ee-42e2-9ce6-0e7a6f43a0ba")
@@ -159,9 +155,7 @@ class Normalize2MomHelper(pytorch_types.ModuleHelperStub):
     def save_instance_state(self, model: torch.nn.Module, _saver):
         return self.cleanup_state(super().save_instance_state(model, _saver))
 
-    def load_instance_state(
-        self, module: torch.nn.Module, saved_state: dict, _referencer
-    ):
+    def load_instance_state(self, module: torch.nn.Module, saved_state: dict, _referencer):
         if not isinstance(saved_state["f"], torch.nn.Module):
             loaded = pickle.loads(saved_state["f"])  # nosec
             saved_state["f"] = loaded

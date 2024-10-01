@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 """Module that provides interoperability between pymatgen and mincepy"""
+
 import io
 import uuid
 
@@ -51,9 +51,7 @@ class TensorHelper(mincepy.BaseHelper):
         }
 
     def new(self, saved_state: dict) -> torch.Tensor:
-        return torch.empty(
-            saved_state[self.SIZE], dtype=torch_dtypes[saved_state[self.DTYPE]]
-        )
+        return torch.empty(saved_state[self.SIZE], dtype=torch_dtypes[saved_state[self.DTYPE]])
 
     def load_instance_state(self, tensor: torch.Tensor, saved_state: dict, _referencer):
         with saved_state[self.FILE].open("rb") as file:
@@ -70,9 +68,7 @@ class ModuleHelperStub(mincepy.BaseHelper):
     def save_instance_state(self, model: torch.nn.Module, _saver):
         return model.__dict__
 
-    def load_instance_state(
-        self, module: torch.nn.Module, saved_state: dict, _referencer
-    ):
+    def load_instance_state(self, module: torch.nn.Module, saved_state: dict, _referencer):
         for key, value in saved_state.items():
             setattr(module, key, value)
 

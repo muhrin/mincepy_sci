@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import uuid
 
 import mincepy
@@ -10,9 +8,7 @@ class ArrayHelper(mincepy.TypeHelper):
     TYPE = numpy.ndarray
     TYPE_ID = uuid.UUID("eff7de75-2d6c-48dd-9b46-0ce16fb8b688")
 
-    def yield_hashables(
-        self, array: numpy.ndarray, hasher
-    ):  # pylint: disable=arguments-differ
+    def yield_hashables(self, array: numpy.ndarray, hasher):  # pylint: disable=arguments-differ
         yield from hasher.yield_hashables(array.tolist())
 
     def eq(self, one, other) -> bool:
@@ -32,4 +28,4 @@ class ArrayHelper(mincepy.TypeHelper):
         pass  # Nothing to do, did it all in new
 
 
-TYPES = (ArrayHelper(),)
+TYPES = (ArrayHelper,)

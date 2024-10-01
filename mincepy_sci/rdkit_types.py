@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 """Module that provides interoperability between pymatgen and mincepy"""
+
 import json
 import uuid
 
@@ -33,4 +33,4 @@ class MolHelper(mincepy.BaseHelper):
         pass  # Nothing to do, did it all in new
 
 
-TYPES = (MolHelper(),)
+TYPES = (MolHelper,)

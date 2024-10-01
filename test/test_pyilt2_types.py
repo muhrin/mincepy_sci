@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=wrong-import-position
 import numpy as np
-
 import pytest
 
 pyilt2 = pytest.importorskip("pyilt2")

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import uuid
 
 import mincepy
@@ -23,7 +22,7 @@ class SettingsHelper(mincepy.BaseHelper):
         self, settings, saved_state, loader: "mincepy.Loader"
     ):  # pylint: disable=unused-argument, arguments-differ
         """Take the given blank object and load the instance state into it"""
-        settings.__init__(**saved_state)
+        settings.__init__(**saved_state)  # pylint: disable=unnecessary-dunder-call
 
 
 class MoleculeHelper(mincepy.BaseHelper):
@@ -50,4 +49,4 @@ class MoleculeHelper(mincepy.BaseHelper):
         return molecule
 
 
-TYPES = SettingsHelper(), MoleculeHelper()
+TYPES = SettingsHelper, MoleculeHelper

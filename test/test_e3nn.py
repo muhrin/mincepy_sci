@@ -1,16 +1,13 @@
-# -*- coding: utf-8 -*-
 # pylint: disable=wrong-import-position
 import random
 
 import pytest
 
 torch = pytest.importorskip("torch")
+from e3nn import nn, o3
+import e3nn.util.test
 import mincepy
 from mincepy import testing
-from e3nn import nn
-from e3nn import o3
-import e3nn.util.test
-
 
 # region: From e3nn tests.  Copyright belongs to e3nn under MIT license
 
@@ -18,17 +15,7 @@ import e3nn.util.test
 
 
 def make_tp(
-    l1,
-    p1,
-    l2,
-    p2,
-    lo,
-    po,
-    mode,
-    weight,
-    mul: int = 25,
-    path_weights: bool = True,
-    **kwargs
+    l1, p1, l2, p2, lo, po, mode, weight, mul: int = 25, path_weights: bool = True, **kwargs
 ):
     def mul_out(mul):
         if mode == "uvuv":
@@ -76,6 +63,7 @@ def random_params(n=25):
 
 # endregion
 
+
 # region o3
 def test_saving_irrep(historian: mincepy.Historian):
     irrep_str = "4e"
@@ -100,9 +88,7 @@ def test_saving_irreps(historian: mincepy.Historian):
 
 
 @pytest.mark.parametrize("l1, p1, l2, p2, lo, po, mode, weight", random_params(n=1))
-def test_saving_tensor_product(
-    l1, p1, l2, p2, lo, po, mode, weight, historian: mincepy.Historian
-):
+def test_saving_tensor_product(l1, p1, l2, p2, lo, po, mode, weight, historian: mincepy.Historian):
     args = l1, p1, l2, p2, lo, po, mode, weight
     tp = make_tp(*args)
     # Saved TP
