@@ -49,6 +49,7 @@ dev = [
 full = [
     "ase",
     "e3nn",
+    "jax",
     "numpy",
     "pandas",
     "plams",

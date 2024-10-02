@@ -4,6 +4,7 @@
 
 .. _ase: https://wiki.fysik.dtu.dk/ase/
 .. _e3nn: https://docs.e3nn.org/en/stable/
+.. _jax: https://jax.readthedocs.io/
 .. _numpy: https://numpy.org/
 .. _pandas: https://pandas.pydata.org/
 .. _plams: https://www.scm.com/doc/plams/index.html
@@ -20,9 +21,9 @@ mincePy Sci
     :target: https://codecov.io/gh/muhrin/mincepy_sci
     :alt: Coverage
 
-.. image:: https://travis-ci.com/muhrin/mincepy_sci.svg?branch=master
-    :target: https://travis-ci.com/github/muhrin/mincepy_sci
-    :alt: Travis CI
+.. image:: https://github.com/muhrin/mincepy_sci/actions/workflows/ci.yml/badge.svg
+    :target: https://github.com/muhrin/mincepy_sci/actions/workflows/ci.yml
+    :alt: Github actions
 
 .. image:: https://img.shields.io/pypi/v/mincepy-sci.svg
     :target: https://pypi.python.org/pypi/mincepy_sci/
@@ -63,6 +64,9 @@ This plugin provide support for:
 `ase`_:
     * ``Atoms``
     * ``Cell``
+
+`jax`_:
+    * ``Array``
 
 `numpy`_:
     * ``ndarray``
