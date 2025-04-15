@@ -14,7 +14,7 @@ def test_saving_jax_arrays(historian: mincepy.Historian):
     loaded_array = historian.load(array_id)
     assert all(loaded_array == jnp.ones(10))
 
-    loaded_array[0] = 5.0
+    loaded_array = loaded_array.at[0].set(5.0)
     historian.save(loaded_array)
 
 
@@ -26,5 +26,5 @@ def test_saving_jax_arrays_integers(historian: mincepy.Historian):
     loaded_array = historian.load(array_id)
     assert all(loaded_array == jnp.ones(10, dtype=jnp.int64))
 
-    loaded_array[0] = 5.0
+    loaded_array = loaded_array.at[0].set(5.0)
     historian.save(loaded_array)

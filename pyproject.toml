@@ -23,16 +23,16 @@ keywords = [
 classifiers = [
     "License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)",
     'Programming Language :: Python',
-    'Programming Language :: Python :: 3.8',
     'Programming Language :: Python :: 3.9',
     'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
 ]
-requires-python = '>=3.8'
+requires-python = '>=3.9'
 dependencies = [
     "bidict",
-    "mincepy>=0.16.4",
+    "mincepy>=0.18.0, <0.19",
 ]
 
 [project.optional-dependencies]
@@ -49,6 +49,7 @@ dev = [
 full = [
     "ase",
     "e3nn",
+    "flax",
     "jax",
     "numpy",
     "pandas",

@@ -80,10 +80,17 @@ class TheModelClass(nn.Module):
         return val
 
 
-class TheModelClassHelper(pytorch_types.ModuleHelperStub):
-    TYPE = TheModelClass
-    TYPE_ID = uuid.UUID("1df0f5aa-42a2-4fb5-8efc-f03339dfe306")
+class TheModelClassHelper(
+    pytorch_types.ModuleHelperStub,
+    obj_type=TheModelClass,
+    type_id=uuid.UUID("1df0f5aa-42a2-4fb5-8efc-f03339dfe306"),
+):
+    pass
 
 
-class TheSavableModelClass(TheModelClass, pytorch_types.SavableModuleMixin):
-    TYPE_ID = uuid.UUID("1df0f5aa-42a2-4fb5-8efc-f03339dfe306")
+class TheSavableModelClass(
+    TheModelClass,
+    pytorch_types.SavableModuleMixin,
+    type_id=uuid.UUID("1df0f5aa-42a2-4fb5-8efc-f03339dfe306"),
+):
+    pass

@@ -5,8 +5,10 @@ def get_types():
     """The central entry point"""
     # pylint: disable=use-list-literal
     types = list()
+
     _extend(types, "ase_types")
     _extend(types, "e3nn_types")
+    _extend(types, "jax_types")
     _extend(types, "numpy_types")
     _extend(types, "pandas_types")
     _extend(types, "plams_types")

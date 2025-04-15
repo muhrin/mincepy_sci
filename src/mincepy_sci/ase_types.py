@@ -6,26 +6,31 @@ import ase.calculators.calculator as ase_calculator
 import ase.cell
 import ase.db.row
 import mincepy
+from typing_extensions import override
 
 __all__ = "AtomsHelper", "CellHelper"
 
 
-class AtomsHelper(mincepy.TypeHelper):
-    TYPE = ase.Atoms
-    TYPE_ID = uuid.UUID("ad4ca7ae-6ebc-4594-947d-ac42f5d96c1f")
+class AtomsHelper(
+    mincepy.TypeHelper,
+    obj_type=ase.Atoms,
+    type_id=uuid.UUID("ad4ca7ae-6ebc-4594-947d-ac42f5d96c1f"),
+):
     INJECT_CREATION_TRACKING = True
 
     def __init__(self, load_original_calculator=False):
         super().__init__()
         self._load_original_calculator = load_original_calculator
 
-    def yield_hashables(self, atoms: ase.Atoms, hasher):  # pylint: disable=arguments-differ
+    @override
+    def yield_hashables(self, atoms: ase.Atoms, hasher, /):
         yield from hasher.yield_hashables(atoms.cell)
         yield from hasher.yield_hashables(atoms.pbc)
         yield from hasher.yield_hashables(atoms.positions)
         yield from hasher.yield_hashables(atoms.numbers)
 
-    def eq(self, one, other) -> bool:
+    @override
+    def eq(self, one, other, /) -> bool:
         if not (isinstance(one, ase.Atoms) and isinstance(other, ase.Atoms)):
             return False
 
@@ -37,12 +42,12 @@ class AtomsHelper(mincepy.TypeHelper):
             and (one.pbc == other.pbc).all()
         )
 
-    def save_instance_state(self, atoms: ase.Atoms, saver):  # pylint: disable=arguments-differ
+    @override
+    def save_instance_state(self, atoms: ase.Atoms, saver, /):
         return ase.db.row.atoms2dict(atoms)
 
-    def load_instance_state(
-        self, atoms: ase.Atoms, saved_state, _referencer
-    ):  # pylint: disable=arguments-differ
+    @override
+    def load_instance_state(self, atoms: ase.Atoms, saved_state, _referencer, /):
         """Much of this is taken from ase.db.row.AtomsRow.toatoms() and therefore may
         need to be updated if the ase code changes"""
         row = ase.db.row.AtomsRow(saved_state)
@@ -86,32 +91,32 @@ class AtomsHelper(mincepy.TypeHelper):
         return atoms
 
 
-class CellHelper(mincepy.TypeHelper):
-    TYPE = ase.cell.Cell
-    TYPE_ID = uuid.UUID("4eea34e2-df87-420e-b51e-7d015bb1d3cb")
+class CellHelper(
+    mincepy.TypeHelper,
+    obj_type=ase.cell.Cell,
+    type_id=uuid.UUID("4eea34e2-df87-420e-b51e-7d015bb1d3cb"),
+):
     INJECT_CREATION_TRACKING = True
 
-    def yield_hashables(self, cell: ase.cell.Cell, hasher):  # pylint: disable=arguments-differ
+    @override
+    def yield_hashables(self, cell: ase.cell.Cell, hasher, /):
         yield from hasher.yield_hashables(cell.array.tolist())
 
-    def eq(self, one, other) -> bool:
+    @override
+    def eq(self, one, other, /) -> bool:
         if not isinstance(other, ase.cell.Cell):
             return False
 
         return (one == other).all()
 
-    def save_instance_state(
-        self, cell: ase.cell.Cell, _referencer
-    ):  # pylint: disable=arguments-differ
+    def save_instance_state(self, cell: ase.cell.Cell, _referencer, /):
         # Here we emulate what cell's todict method started to do in 3.20 because
         # otherwise we get a deprecation warning on account of pbc being removed
         # In case todict changes we should update this correspondingly (eventually
         # once 3.19 is no longer used this could go back to just calling todict())
         return dict(array=cell.array)
 
-    def load_instance_state(
-        self, cell: ase.cell.Cell, saved_state, _referencer
-    ):  # pylint: disable=arguments-differ
+    def load_instance_state(self, cell: ase.cell.Cell, saved_state, _referencer, /):
         cell.__init__(saved_state["array"])  # pylint: disable=unnecessary-dunder-call
         return cell
 
