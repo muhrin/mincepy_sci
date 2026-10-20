@@ -31,7 +31,7 @@ classifiers = [
 requires-python = '>=3.11'
 dependencies = [
     "bidict",
-    "mincepy>=0.19.0, <0.20",
+    "mincepy>=0.19.1, <0.20",
     "typing-extensions",  # For typing.override on Python < 3.12
 ]
 
