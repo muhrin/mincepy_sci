@@ -1,4 +1,3 @@
-# pylint: disable=wrong-import-position
 import json
 import pathlib
 
@@ -75,9 +74,7 @@ def test_saving_bandstructure(historian: mincepy.Historian):
     bandstructure_id = historian.save(bandstructure)
     del bandstructure
 
-    loaded_bandstructure = historian.load(
-        bandstructure_id
-    )  # type: pymatgen_bandstructure.BandStructure
+    loaded_bandstructure = historian.load(bandstructure_id)  # type: pymatgen_bandstructure.BandStructure
     assert (loaded_bandstructure.kpoints[0].frac_coords == numpy.array([0.0, 0.0, 0.0])).all()
 
 
@@ -88,9 +85,7 @@ def completedos_json_dict():
         return json.load(stream)
 
 
-def test_saving_completedos(
-    historian: mincepy.Historian, completedos_json_dict
-):  # pylint: disable=redefined-outer-name
+def test_saving_completedos(historian: mincepy.Historian, completedos_json_dict):
     completedos = pymatgen_dos.CompleteDos.from_dict(completedos_json_dict)
     completedos_id = historian.save(completedos)
     del completedos

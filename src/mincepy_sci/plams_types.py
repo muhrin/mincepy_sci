@@ -4,8 +4,6 @@ import mincepy
 from scm import plams
 from typing_extensions import override
 
-# pylint: disable=no-member
-
 
 class SettingsHelper(
     mincepy.BaseHelper,
@@ -23,7 +21,7 @@ class SettingsHelper(
     @override
     def load_instance_state(self, settings, saved_state, _loader: "mincepy.Loader", /):
         """Take the given blank object and load the instance state into it"""
-        settings.__init__(**saved_state)  # pylint: disable=unnecessary-dunder-call
+        settings.__init__(**saved_state)
 
 
 class MoleculeHelper(
@@ -85,7 +83,6 @@ class AsArrayContextHelper(
 
     @override
     def yield_hashables(self, obj: plams.mol.context.AsArrayContext, hasher, /):
-        # pylint: disable=protected-access
         yield from hasher.yield_hashables(mincepy.ref(obj._from_array.__self__))
 
     @override
@@ -95,29 +92,25 @@ class AsArrayContextHelper(
         other: plams.mol.context.AsArrayContext,
         /,  # noqa: W504
     ) -> bool:
-        # pylint: disable=protected-access
         return one._from_array.__self__ == other._from_array.__self__
 
     @override
     def save_instance_state(
-        # pylint: disable=unused-argument
         self,
         obj: plams.mol.context.AsArrayContext,
         saver: "mincepy.Saver",
         /,
     ):
-        return {"mol": mincepy.ref(obj._from_array.__self__)}  # pylint: disable=protected-access
+        return {"mol": mincepy.ref(obj._from_array.__self__)}
 
     @override
     def load_instance_state(
-        # pylint: disable=unused-argument
         self,
         obj: plams.mol.context.AsArrayContext,
         saved_state,
         loader: "mincepy.Loader",
         /,
     ):
-        # pylint: disable=protected-access
         mol: plams.Molecule = saved_state["mol"]
         obj._atoms = mol.atoms
         obj._from_array = mol.from_array

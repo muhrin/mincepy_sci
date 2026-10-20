@@ -10,7 +10,6 @@ class ArrayHelper(
     obj_type=np.ndarray,
     type_id=uuid.UUID("eff7de75-2d6c-48dd-9b46-0ce16fb8b688"),
 ):
-
     @override
     def yield_hashables(self, array: np.ndarray, hasher, /):
         yield from hasher.yield_hashables(array.tolist())

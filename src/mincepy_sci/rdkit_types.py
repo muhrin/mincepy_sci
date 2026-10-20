@@ -17,7 +17,6 @@ class MolHelper(
     obj_type=Chem.rdchem.Mol,
     type_id=uuid.UUID("4810acf6-624c-419f-998c-f1a6dcf9def0"),
 ):
-
     @override
     def yield_hashables(self, mol: Chem.rdchem.Mol, hasher, /, *_):
         yield from hasher.yield_hashables(get_mol_json_dict(mol))

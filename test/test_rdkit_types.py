@@ -1,5 +1,3 @@
-# pylint: disable=wrong-import-order, wrong-import-position
-
 import pytest
 
 pytest.importorskip("rdkit")
@@ -8,8 +6,8 @@ import copy
 
 import mincepy
 import numpy as np
-from rdkit import Chem  # pylint: disable=import-error
-import rdkit.Chem.AllChem  # pylint: disable=import-error,unused-import
+from rdkit import Chem
+import rdkit.Chem.AllChem
 
 
 def create_mol(smiles):

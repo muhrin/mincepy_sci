@@ -1,4 +1,3 @@
-# pylint: disable=wrong-import-position, invalid-name
 import jax.numpy as jnp
 import mincepy
 import pytest

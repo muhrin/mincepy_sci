@@ -9,7 +9,7 @@ from typing_extensions import override
 
 class JaxArrayHelper(
     mincepy.TypeHelper,
-    obj_type=(jax.Array, jax._src.array.ArrayImpl),  # pylint: disable=protected-access
+    obj_type=(jax.Array, jax._src.array.ArrayImpl),
     type_id=uuid.UUID("d7270e15-c6fb-4621-abd8-c47b3be8b839"),
 ):
     @override

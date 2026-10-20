@@ -1,4 +1,3 @@
-# pylint: disable=wrong-import-position
 import random
 
 import pytest
@@ -10,8 +9,6 @@ import mincepy
 from mincepy import testing
 
 # region: From e3nn tests.  Copyright belongs to e3nn under MIT license
-
-# pylint: disable=invalid-name
 
 
 def make_tp(

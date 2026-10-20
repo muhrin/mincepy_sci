@@ -1,38 +1,43 @@
 name: continuous-integration
 
-on: [ push, pull_request ]
+on: [ push, pull_request, workflow_dispatch ]
+
+env:
+  DEFAULT_PYTHON: '3.13'
+  # The CPU-only builds of torch are much smaller and all that the tests need
+  PIP_EXTRA_INDEX_URL: https://download.pytorch.org/whl/cpu
 
 jobs:
   pre-commit:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - name: Set up Python ${{ env.DEFAULT_PYTHON }}
+        uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
+          python-version: ${{ env.DEFAULT_PYTHON }}
       - uses: pre-commit/action@v3.0.1
 
-  pylint:
-    name: pylint
+  ty:
+    name: ty
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
 
       - name: Set up Python ${{ env.DEFAULT_PYTHON }}
-        uses: actions/setup-python@v5.1.1
+        uses: actions/setup-python@v7
         with:
           python-version: ${{ env.DEFAULT_PYTHON }}
 
       - name: Install python dependencies
         run: pip install -e .[dev,full]
 
-      - name: Run pylint checks
-        run: |
-          pre-commit run --hook-stage manual pylint-with-spelling --all-files
+      - name: Run ty checks
+        # Point ty at the interpreter that has the dependencies installed
+        run: ty check --python "$(which python)"
 
   tests:
     runs-on: ubuntu-latest
@@ -40,42 +45,84 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ '3.9', '3.10', '3.11', '3.12', '3.13' ]
-        include:
-          - python-version: '3.11'
-          - python-version: '3.11'
+        python-version: [ '3.11', '3.12', '3.13', '3.14' ]
+
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v7
 
-      - name: Setup conda
-        uses: s-weigand/setup-conda@v1
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v7
         with:
-          update-conda: true
           python-version: ${{ matrix.python-version }}
-          conda-channels: anaconda, conda-forge
 
       - name: Install python dependencies
-        run: |
-          conda install -y rdkit
-          pip install -e .[dev,full]
-
-      - name: Create MongoDB Docker container
-        id: build_mongo_docker
-        uses: DigiPie/mongo-action@v1.0.1
-        with:
-          image-version: latest
-          port: 27017
+        run: pip install -e .[dev,full]
 
       - name: Run pytest
-        run: pytest --cov=mincepy_sci -sv -p no:nb_regression test
+        run: pytest --cov=mincepy_sci -sv test
 
       - name: Create xml coverage
         run: coverage xml
 
       - name: Upload coverage to Codecov
         if: github.repository == 'muhrin/mincepy_sci'
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v7.1.1
         with:
-          file: ./coverage.xml
+          files: ./coverage.xml
           name: mincepy-sci
+
+  tests-litemongo:
+    # The test suite without a MongoDB server, using litemongo's in-memory and SQLite engines
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [ memory, sqlite ]
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python ${{ env.DEFAULT_PYTHON }}
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.DEFAULT_PYTHON }}
+
+      - name: Install python dependencies
+        run: pip install -e .[dev,full]
+
+      - name: Run pytest
+        env:
+          MINCEPY_TEST_URI: >-
+            ${{ matrix.engine == 'memory'
+            && 'litemongo://?engine=memory#mincepy-sci-tests'
+            || format('litemongo://{0}/litemongo-db#mincepy-sci-tests', runner.temp) }}
+        run: pytest -sv test
+
+  publish:
+    name: Publish to PyPI
+    needs: [ pre-commit, ty, tests, tests-litemongo ]
+    # Only from main (pushed or run manually), and never from forks
+    if: >-
+      github.repository == 'muhrin/mincepy_sci' &&
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # To create the tag and GitHub release
+
+    steps:
+      # Checks out and builds the package itself, and only publishes (and creates a v<version> tag
+      # and GitHub release) if the version in src/mincepy_sci/__init__.py is newer than on PyPI
+      - uses: etils-actions/pypi-auto-publish@v1.5.6
+        with:
+          pypi-token: ${{ secrets.PYPI_API_TOKEN }}
+          gh-token: ${{ secrets.GITHUB_TOKEN }}
+          parse-changelog: false
+          pkg-name: mincepy-sci

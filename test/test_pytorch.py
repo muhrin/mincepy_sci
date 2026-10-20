@@ -1,4 +1,3 @@
-# pylint: disable=wrong-import-position
 import copy
 import uuid
 
@@ -7,7 +6,7 @@ import pytest
 torch = pytest.importorskip("torch")
 
 import mincepy
-from torch import nn  # pylint: disable=import-error
+from torch import nn
 
 from mincepy_sci import pytorch_types
 
@@ -28,7 +27,7 @@ def test_saving_module_inheritance(historian: mincepy.Historian):
     Example from:
     https://pytorch.org/tutorials/beginner/saving_loading_models.html"""
     model = TheSavableModelClass()
-    state_dict = copy.deepcopy(model.state_dict())  # pylint: disable=missing-kwoa
+    state_dict = copy.deepcopy(model.state_dict())
 
     model_id = historian.save(model)
     del model
@@ -45,7 +44,7 @@ def test_saving_module_type_helper(historian: mincepy.Historian):
     historian.register_type(TheModelClassHelper)
 
     model = TheModelClass()
-    state_dict = copy.deepcopy(model.state_dict())  # pylint: disable=missing-kwoa
+    state_dict = copy.deepcopy(model.state_dict())
 
     model_id = historian.save(model)
     del model

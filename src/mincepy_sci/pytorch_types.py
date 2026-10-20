@@ -8,7 +8,6 @@ import mincepy
 import torch
 from typing_extensions import override
 
-# pylint: disable=no-member
 torch_dtypes = bidict.bidict(
     {
         "bool": torch.bool,
@@ -31,7 +30,6 @@ class TensorHelper(
     obj_type=torch.Tensor,
     type_id=uuid.UUID("4b69b98b-3a0e-4d14-8f64-b9bd7caf4cc5"),
 ):
-
     DTYPE = "dtype"
     SIZE = "size"
     FILE = "file"

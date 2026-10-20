@@ -11,7 +11,6 @@ class LinenDenseHelper(
     type_id=uuid.UUID("fb7ba12b-974e-4b52-bc02-8e0d693dd39a"),
     immutable=True,
 ):
-
     @override
     def yield_hashables(self, dense: linen.Dense, hasher, /):
         yield dense.features
@@ -51,7 +50,6 @@ class LinenSequentialHelper(
     type_id=uuid.UUID("a2ebfb10-5719-4593-b77d-bb4c54092357"),
     immutable=True,
 ):
-
     @override
     def yield_hashables(self, sequential: linen.Sequential, hasher, /):
         yield from hasher.yield_hashables(sequential.layers)

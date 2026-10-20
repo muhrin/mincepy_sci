@@ -51,9 +51,9 @@ class AtomsHelper(
         """Much of this is taken from ase.db.row.AtomsRow.toatoms() and therefore may
         need to be updated if the ase code changes"""
         row = ase.db.row.AtomsRow(saved_state)
-        atoms.__init__(  # pylint: disable=unnecessary-dunder-call
-            row.numbers,  # pylint: disable=no-member
-            row.positions,  # pylint: disable=no-member
+        atoms.__init__(
+            row.numbers,
+            row.positions,
             cell=row.cell,
             pbc=row.pbc,
             magmoms=row.get("initial_magmoms"),
@@ -81,7 +81,7 @@ class AtomsHelper(
                 atoms.calc.name = row.get("calculator", "unknown")
 
         atoms.info = {}
-        atoms.info["unique_id"] = row.unique_id  # pylint: disable=no-member
+        atoms.info["unique_id"] = row.unique_id
         if row.key_value_pairs:
             atoms.info["key_value_pairs"] = row.key_value_pairs
         data = row.get("data")
@@ -117,7 +117,7 @@ class CellHelper(
         return dict(array=cell.array)
 
     def load_instance_state(self, cell: ase.cell.Cell, saved_state, _referencer, /):
-        cell.__init__(saved_state["array"])  # pylint: disable=unnecessary-dunder-call
+        cell.__init__(saved_state["array"])
         return cell
 
 

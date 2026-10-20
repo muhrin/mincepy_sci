@@ -1,11 +1,8 @@
-# pylint: disable=wrong-import-position, invalid-name
 import pytest
 
 numpy = pytest.importorskip("scm.plams")
 
 import mincepy
-
-# pylint: disable=no-member
 
 
 def test_saving_plams_settings(historian: mincepy.Historian):
@@ -47,7 +44,7 @@ def test_saving_plams_molecule(historian: mincepy.Historian):
 
     loaded = historian.load(mol_id)
     # Check that atoms are as we expect
-    for atom, entry in zip(loaded, atoms_list):
+    for atom, entry in zip(loaded, atoms_list, strict=True):
         assert atom_eq(atom, entry)
     assert loaded.properties.bangin
 

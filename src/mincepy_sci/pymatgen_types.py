@@ -1,6 +1,5 @@
 """Module that provides interoperability between pymatgen and mincepy"""
 
-# pylint: disable=ungrouped-imports
 import collections.abc
 import uuid
 
@@ -58,7 +57,6 @@ class MoleculeHelper(
     obj_type=pymatgen.core.Molecule,
     type_id=uuid.UUID("d96f94c2-bc63-4abc-9e75-9d297b0ca9ad"),
 ):
-
     @override
     def yield_hashables(self, mol: pymatgen.core.Molecule, hasher, /):
         yield from hasher.yield_hashables(mol.as_dict())
@@ -92,8 +90,7 @@ class BandStructureHelper(
         yield from hasher.yield_hashables(bandstructure.as_dict())
 
     @override
-    def eq(self, one, other, /) -> bool:
-        # pylint: disable=too-many-return-statements
+    def eq(self, one, other, /) -> bool:  # noqa: PLR0911
         if not (
             isinstance(one, pymatgen_bandstructure.BandStructure)
             and isinstance(other, pymatgen_bandstructure.BandStructure)
@@ -101,7 +98,6 @@ class BandStructureHelper(
             return False
 
         # Check the cheap things first
-        # pylint: disable=too-many-boolean-expressions
         if (
             (len(one.kpoints) != len(other.kpoints))
             or (one.lattice != other.lattice)
@@ -146,7 +142,10 @@ class BandStructureHelper(
 
     @override
     def save_instance_state(
-        self, bandstructure: pymatgen_bandstructure.BandStructure, _referencer, /  # noqa: W504
+        self,
+        bandstructure: pymatgen_bandstructure.BandStructure,
+        _referencer,
+        /,  # noqa: W504
     ):
 
         # The `pymatgen.electronic_structure.bandstructure.Kpoints.as_dict` method uses
@@ -184,7 +183,6 @@ class CompleteDosHelper(
 
     @override
     def eq(self, one, other, /) -> bool:
-        # pylint: disable=too-many-boolean-expressions
         if not (
             isinstance(one, pymatgen_dos.CompleteDos)
             and isinstance(other, pymatgen_dos.CompleteDos)
@@ -235,7 +233,6 @@ class PeriodicSite(
 
     @override
     def eq(self, one, other, /) -> bool:
-        # pylint: disable=too-many-boolean-expressions
         if not (
             isinstance(one, pymatgen.core.PeriodicSite)
             and isinstance(other, pymatgen.core.PeriodicSite)

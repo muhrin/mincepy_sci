@@ -1,4 +1,3 @@
-# pylint: disable=wrong-import-position
 import numpy as np
 import pytest
 
@@ -8,7 +7,6 @@ import mincepy
 
 
 def get_dataset():
-    # pylint: disable=line-too-long
 
     dataset = pyilt2.dataset.__new__(pyilt2.dataset)
     dataset.setid = "nwnQG"
@@ -201,7 +199,6 @@ def get_dataset():
         ],
     }
 
-    # pylint: disable=protected-access
     dataset._dataNpArray()
     dataset._dataHeader()
     return dataset

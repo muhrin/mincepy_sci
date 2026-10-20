@@ -1,4 +1,3 @@
-# pylint: disable=wrong-import-position, invalid-name
 import mincepy
 import pytest
 

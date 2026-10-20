@@ -3,7 +3,6 @@ import importlib
 
 def get_types():
     """The central entry point"""
-    # pylint: disable=use-list-literal
     types = list()
 
     _extend(types, "ase_types")

@@ -98,7 +98,6 @@ class TensorProductHelper(
     obj_type=o3.TensorProduct,
     type_id=uuid.UUID("1a9a6154-ba68-476b-bb09-2ace5fda5f45"),
 ):
-
     # Helpers to make finding easier
     irreps_in1 = mincepy.field("irreps_in1")
     irreps_in2 = mincepy.field("irreps_in2")
@@ -110,7 +109,6 @@ class TensorSquareHelper(
     obj_type=o3.TensorSquare,
     type_id=uuid.UUID("aa68e071-92ee-48ad-8909-80f9069f629c"),
 ):
-
     # Helpers to make finding easier
     irreps_in = mincepy.field("irreps_in")
 
@@ -120,7 +118,6 @@ class ReducedTensorProductsHelper(
     obj_type=o3.ReducedTensorProducts,
     type_id=uuid.UUID("b87bf7b1-eb3d-4d5d-b65a-3a6780d725a3"),
 ):
-
     # Helpers to make finding easier
     irreps_in = mincepy.field("irreps_in")
     irreps_out = mincepy.field("irreps_out")
@@ -149,7 +146,7 @@ class GateHelper(
 
 class ShortcutHelper(
     pytorch_types.ModuleHelperStub,
-    obj_type=nn._gate._Sortcut,  # pylint: disable=protected-access
+    obj_type=nn._gate._Sortcut,
     type_id=uuid.UUID("c1de96e4-0963-4528-8d8e-87711049cc7b"),
 ):
     pass

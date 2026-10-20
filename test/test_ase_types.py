@@ -1,7 +1,6 @@
-# pylint: disable=wrong-import-position
 import pytest
 
-ase = pytest.importorskip("ase")
+pytest.importorskip("ase")
 import ase.build
 import mincepy
 
