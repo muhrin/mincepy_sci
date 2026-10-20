@@ -123,6 +123,11 @@ Supported types
 `numpy`_:
     * ``ndarray``
 
+numpy and JAX arrays are stored as their raw bytes, keeping their exact dtype (including e.g.
+``bfloat16``) and shape.  Arrays larger than 256 KiB are stored in mincePy files rather than in the
+database records, so there's no limit on their size (the threshold can be changed by setting
+``mincepy_sci.arrays.INLINE_LIMIT``).
+
 `pandas`_:
     * ``DataFrame``
 
