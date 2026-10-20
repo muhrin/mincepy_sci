@@ -76,3 +76,37 @@ def test_no_stale_references(path):
     text = (ROOT / path).read_text().lower()
     for stale in ("travis", "setup.py", "code%20style-black", "prospector", "yapf"):
         assert stale not in text, f"'{stale}' found in {path}"
+
+
+def _python_code_blocks(rst_file: pathlib.Path) -> list[str]:
+    """Get the code from the '.. code-block:: python' blocks of a reStructuredText file"""
+    lines = rst_file.read_text().splitlines()
+    blocks = []
+    idx = 0
+    while idx < len(lines):
+        if lines[idx].strip() == ".. code-block:: python":
+            idx += 1
+            block = []
+            while idx < len(lines) and (not lines[idx].strip() or lines[idx].startswith("    ")):
+                block.append(lines[idx][4:])
+                idx += 1
+            blocks.append("\n".join(block))
+        else:
+            idx += 1
+    return blocks
+
+
+def test_readme_example_runs(tmp_path):
+    """The quick start example in the README should work"""
+    for module in ("numpy", "pymatgen.core", "torch"):
+        pytest.importorskip(module)
+
+    (code,) = _python_code_blocks(ROOT / "README.rst")
+    code = code.replace("/path/to/my/db", str(tmp_path / "db"))
+    code += """
+
+assert len(energies) == 7
+assert nacl.composition.reduced_formula == "NaCl"
+assert [type(obj).__name__ for obj in structures] == ["Structure"]
+"""
+    exec(compile(code, "README.rst", "exec"), {})  # nosec

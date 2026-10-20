@@ -12,6 +12,7 @@
 .. _pymatgen: https://pymatgen.org/
 .. _pytorch: https://pytorch.org/
 .. _rdkit: https://www.rdkit.org/
+.. _pyOS: https://github.com/muhrin/pyos
 
 
 mincePy Sci
@@ -58,6 +59,41 @@ mincePy Sci needs Python 3.11 or later.  Install it with mincePy:
 or on its own, ``pip install mincepy-sci``.  Once installed, mincePy finds the plugins
 automatically, and support for each library is enabled if that library is installed.  To install
 all the supported libraries as well, use ``pip install mincepy-sci[full]``.
+
+Quick start
+-----------
+
+Scientific objects can then be saved, loaded and searched like any other mincePy object, e.g. with
+numpy_, pymatgen_ and pytorch_ installed:
+
+.. code-block:: python
+
+    import mincepy
+    import numpy as np
+    from pymatgen.core import Lattice, Structure
+    import torch
+
+    historian = mincepy.connect("litemongo:///path/to/my/db#science", use_globally=True)
+
+    # Arrays
+    energies_id = historian.save(np.linspace(-3.5, -2.9, 7))
+
+    # Materials, e.g. a crystal structure, here with some metadata
+    nacl = Structure(Lattice.cubic(5.64), ["Na", "Cl"], [[0, 0, 0], [0.5, 0.5, 0.5]])
+    nacl_id = historian.save(nacl)
+    historian.meta.set(nacl_id, {"material": "NaCl", "source": "textbook"})
+
+    # Machine learning models
+    model_id = historian.save(torch.nn.Linear(3, 1))
+
+    # Later, e.g. in another script or notebook, load them back
+    energies, nacl, model = historian.load(energies_id, nacl_id, model_id)
+
+    # or find them by their metadata (or state)
+    structures = historian.find(meta={"material": "NaCl"})
+
+Every save is versioned, so the history of each object is kept, and objects can be organised and
+browsed like files with pyOS_.
 
 Supported types
 ---------------
